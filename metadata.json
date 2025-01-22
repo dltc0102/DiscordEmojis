@@ -1,0 +1,8 @@
+{
+    "name": "DiscordEmojis",
+    "description": "module that brings wordy emojis and stickers to life in-game",
+    "version": "0.1.0",
+    "author": "oBiscuit",
+    "entry": "index.js",
+    "requires": ["PogData"]
+}

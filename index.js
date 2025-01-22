@@ -1,0 +1,107 @@
+import PogObject from '../PogData';
+
+const MODULE_PREFIX = '&6[&9DiscordEmojis&6]&r';
+export const data = new PogObject("DiscordEmojis", {
+    firstInstall: false,
+    trigger: false,
+}, './data/data.json');
+data.autosave(3);
+
+function isInHypixel() {
+    return (World.isLoaded() && ChatLib.removeFormatting(Scoreboard.getTitle()).includes("SKYBLOCK"));
+}
+
+function parseJSON(path) {
+    return JSON.parse(FileLib.read('DiscordEmojis', path));
+}
+
+function emojis(msg) {
+    if (!msg) return msg;
+    const parsedEmojis = parseJSON('/emojis.json');
+    const emojiRegex = /:\w+:/g;
+
+    try {
+        if (Array.isArray(msg)) {
+            return msg.map(m => m.replace(emojiRegex, match => {
+                const emoji = parsedEmojis[match];
+                return emoji ? `&r${emoji}` : match;
+            }));
+        }
+
+        if (typeof msg === 'string') {
+            return msg.replace(emojiRegex, match => {
+                const emoji = parsedEmojis[match];
+                return emoji ? `&r${emoji}` : match;
+            });
+        }
+
+    } catch (error) {
+        console.error("Error processing emojis:", error);
+    }
+    return msg;
+};
+
+function getInstructions() {
+    return new TextComponent('&e&l[Show Instructions]&r').setClick('run_command', '/showTPInstructions');
+};
+
+register('gameLoad', () => {
+    if (!isInHypixel()) return;
+    ChatLib.chat(`${MODULE_PREFIX} &r&9Loaded`);
+
+    const showPartying = data.trigger ? '㘄 ' : '';
+    const discordLink = new TextComponent('&9[Discord Link]&r')
+        .setHover('show_text', '&b#emojis-suggestions')
+        .setClick('open_url', 'https://discord.gg/FeYvZu5x');
+
+    const texturePackInstructions = getInstructions();
+
+    if (data.firstInstall) {
+        data.trigger = true;
+        data.firstInstall = false;
+        ChatLib.chat(ChatLib.getChatBreak('&e-&r'))
+        ChatLib.chat(`${showPartying}Thank you for installing &9DiscordEmojis&r! ${showPartying}`);
+        ChatLib.chat(new Message( `&3 || &rTexture Pack to make this module work: `, texturePackInstructions ));
+        ChatLib.chat(new Message( `&3 || &rAny suggestions / questions: `, discordLink ));
+        ChatLib.chat(`&3 || &cTo toggle emojis on/off, do &r&b/toggleemojis &r&7| Currently: &r${data.trigger ? '&a&lON&r' : '&c&lOFF&r'}`)
+        ChatLib.chat(ChatLib.getChatBreak('&e-&r'))
+    };
+});
+
+register('command', () => {
+    if (!isInHypixel()) return;
+    if (data.trigger) {
+        ChatLib.chat(`${MODULE_PREFIX} Emojis: &c&lOFF&r`);
+        data.trigger = false;
+        return;
+
+    } else {
+        ChatLib.chat(`${MODULE_PREFIX} Emojis: &a&lON&r`);
+        data.trigger = true;
+        return;
+    }
+}).setName('toggleemojis', true);
+
+register('chat', (someEmoji, event) => {
+    if (!isInHypixel() || !data.trigger) return;
+    cancel(event);
+    const message = ChatLib.getChatMessage(event, true);
+    ChatLib.chat(emojis(message))
+}).setCriteria(':${someEmoji}:').setContains();
+
+register('command', () => {
+    if (!isInHypixel()) return;
+    const showLostEmoji = data.trigger ? '㐸 ' : '';
+    const instructions = getInstructions();
+    ChatLib.chat(`${showLostEmoji}&cLost? Do &b/toggleemojis&c to toggle the emojis!`)
+    ChatLib.chat(new Message( `${showLostEmoji}&cNeed the texture pack? `, instructions ));
+}).setName('discordemojis', true);
+
+register('command', () => {
+    if (!isInHypixel()) return;
+    ChatLib.chat(ChatLib.getChatBreak(' '))
+    ChatLib.chat(ChatLib.getCenteredText('-- &9DiscordEmojis Texture Pack&r -- '));
+    ChatLib.chat(`&3 || &rDo &b/ct files&r`)
+    ChatLib.chat(`&3 || &rThen &bmodules &r> &bDiscordEmojis &r> &bassets &r>&e biscuitsEmojiPack`)
+    ChatLib.chat(ChatLib.getChatBreak('&r-'))
+}).setName('showTPInstructions', true);
