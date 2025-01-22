@@ -15,36 +15,32 @@ function parseJSON(path) {
     return JSON.parse(FileLib.read('DiscordEmojis', path));
 }
 
-function emojis(msg) {
-    if (!msg) return msg;
-    const parsedEmojis = parseJSON('/emojis.json');
-    const emojiRegex = /:\w+:/g;
-
-    try {
-        if (Array.isArray(msg)) {
-            return msg.map(m => m.replace(emojiRegex, match => {
-                const emoji = parsedEmojis[match];
-                return emoji ? `&r${emoji}` : match;
-            }));
-        }
-
-        if (typeof msg === 'string') {
-            return msg.replace(emojiRegex, match => {
-                const emoji = parsedEmojis[match];
-                return emoji ? `&r${emoji}` : match;
-            });
-        }
-
-    } catch (error) {
-        console.error("Error processing emojis:", error);
-    }
-    return msg;
-};
-
 function getInstructions() {
     return new TextComponent('&e&l[Show Instructions]&r').setClick('run_command', '/showTPInstructions');
 };
 
+function getLastColorCode(message) {
+    const firstEmojiIndex = message.search(/:(\w+):/);
+    if (firstEmojiIndex === -1) return null;
+    const colorCodeRegex = /(&[a-z0-9])/g;
+    let lastMatch = null, match;
+    while ((match = colorCodeRegex.exec(message.slice(0, firstEmojiIndex))) !== null) {
+        lastMatch = match[0];
+    }
+    return lastMatch;
+}
+
+function emojify(message) {
+    const emojiRegex = /:(\w+):/g;
+    const parsedEmojis = parseJSON('/emojis.json');
+    const lastColorCode = getLastColorCode(message);
+    return message.replace(emojiRegex, (match) => {
+        const replacement = parsedEmojis[match] || match;
+        return lastColorCode ? `&r${replacement}${lastColorCode}` : replacement;
+    });
+};
+
+//! on load
 register('gameLoad', () => {
     if (!isInHypixel()) return;
     ChatLib.chat(`${MODULE_PREFIX} &r&9Loaded`);
@@ -68,6 +64,17 @@ register('gameLoad', () => {
     };
 });
 
+//! main
+register('chat', (event) => {
+    if (!isInHypixel() || !data.trigger) return;
+    const message = ChatLib.getChatMessage(event, true);
+    if (/:\w+:/.test(message)) {
+        cancel(event);
+        ChatLib.chat(emojify(message));
+    }
+});
+
+//! commands
 register('command', () => {
     if (!isInHypixel()) return;
     if (data.trigger) {
@@ -81,13 +88,6 @@ register('command', () => {
         return;
     }
 }).setName('toggleemojis', true);
-
-register('chat', (someEmoji, event) => {
-    if (!isInHypixel() || !data.trigger) return;
-    cancel(event);
-    const message = ChatLib.getChatMessage(event, true);
-    ChatLib.editChat(messsage, emojis(message))
-}).setCriteria(':${someEmoji}:').setContains();
 
 register('command', () => {
     if (!isInHypixel()) return;
