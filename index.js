@@ -86,7 +86,7 @@ register('chat', (someEmoji, event) => {
     if (!isInHypixel() || !data.trigger) return;
     cancel(event);
     const message = ChatLib.getChatMessage(event, true);
-    ChatLib.chat(emojis(message))
+    ChatLib.editChat(messsage, emojis(message))
 }).setCriteria(':${someEmoji}:').setContains();
 
 register('command', () => {
