@@ -54,7 +54,7 @@
   ":unamused:": "㐥",
   ":unamused_face:": "㐥",
   ":rolling_eyes:": "㐦",
-  ":roll_eyes:": "㐦",    
+  ":roll_eyes:": "㐦",
   ":face_with_rolling_eyes:": "㐦",
   ":thinking:": "㐧",
   ":thinking_face:": "㐧",
@@ -110,7 +110,7 @@
   ":sick:": "㑇",
   ":sneeze:": "㑈",
   ":sneezing_face:": "㑈",
-  ":mask:":"㑉",
+  ":mask:": "㑉",
   ":thermometer_face:": "㑊",
   ":face_with_thermometer:": "㑊",
   ":head_bandage:": "㑋",
@@ -162,7 +162,7 @@
   ":-1:": ":thumbsdown:",
   ":thumbdown:": "㑥",
   ":thumbs_down:": "㑥",
-  ":punch:": "㑦",        
+  ":punch:": "㑦",
   ":facepunch": "㑦",
   ":upcoming_fist:": "㑦",
   ":fist:": "㑧",
@@ -325,6 +325,7 @@
   ":rhinoceros:": "㓤",
   ":goat:": "㓥",
   ":ram:": "㓦",
+  ":rainbow_spinning_sheep:": "§z㓧&r",
   ":sheep:": "㓧",
   ":ewe:": "㓧",
   ":racehorse:": "㓨",
@@ -353,11 +354,6 @@
   ":herb:": "㓽",
   ":shamrock:": "㓾",
   ":four_leaf_clover:": "㓿",
-
-
-
-
-
   ":bamboo:": "㔀",
   ":tanabata_tree:": "㔁",
   ":leaves:": "㔂",
@@ -702,11 +698,6 @@
   ":desktop:": "㗾",
   ":desktop_computer:": "㗾",
   ":printer:": "㗿",
-
-
-
-
-
   ":facing_holding_back_tears:": "㘀",
   ":smiling_face_with_3_hearts:": "㘁",
   ":disguised_face:": "㘂",
@@ -963,10 +954,6 @@
   ":fax": "㛽",
   ":tv": "㛾",
   ":radio": "㛿",
-
-
-
-
   ":microphone2:": "㜀",
   ":level_slider:": "㜁",
   ":control_knobs:": "㜂",
@@ -1140,6 +1127,7 @@
   ":ballot_box_with_check:": "㞪",
   ":infinity:": "㞫",
   ":wheelchair:": "㞬",
+  ":check_mark:": "㞭",
   ":heavy_check_mark:": "㞭",
   ":heavy_plus_sign:": "㞮",
   ":heavy_minus_sign:": "㞯",
@@ -1174,11 +1162,11 @@
   ":angel:": "㟌",
   ":baby_angel:": "㟌",
   ":bangbang:": "㟍",
-  ":black_circle:": "㟎",     
+  ":black_circle:": "㟎",
   ":blue_circle:": "㟏",
   ":brown_circle:": "㟐",
   ":green_circle:": "㟑",
-  ":new2": "莙",
+  ":new2": "㟒",
   ":orange_circle:": "㟓",
   ":purple_circle:": "㟔",
   ":red_circle:": "㟕",
@@ -1188,19 +1176,18 @@
   ":white_circle:": "㟙",
   ":yellow_circle:": "㟚",
   ":kekw:": "㟛",
-  ":KEKW:": "㟜",
-  ":Clueless": "㟝",
-  ":clueless:": "㟞",
-  ":sunglassessmug:": "㟟",
-  ":thumbsupcat:": "㟠",
-  ":tyrone:": "㟡",
-  ":winkwink:": "㟢",
-
-
-
-
-
-
+  ":KEKW:": "㟛",
+  ":Clueless": "㟜",
+  ":clueless:": "㟜",
+  ":sunglassessmug:": "㟝",
+  ":thumbsupcat:": "㟞",
+  ":tyrone:": "㟟",
+  ":winkwink:": "㟠",
+  ":man_shrugging": "㟡",
+  ":person_shrugging:": "㟡",
+  ":woman_shrugging:": "㟡",
+  ":shrug:": "㟡",
+  ":emoji_28:": "㟢",
   ":Axolotl:": "㠀",
   ":AngyAxoltol:": "㠁",
   ":Ammonite:": "㠂",
@@ -1266,7 +1253,7 @@
   ":ShrimpCat:": "㠾",
   ":ShrimpFlushed:": "㠿",
   ":ShrimpPensive:": "㡀",
-  ":ShrimpRave:": "㡁",
+  ":ShrimpRave:": "§z㡁&r",
   ":ShrimpThink:": "㡂",
   ":eclipse8:": "㡃",
   ":enby:": "㡄",
@@ -1292,6 +1279,7 @@
   ":boop:": "㡘",
   ":catno:": "㡙",
   ":dog~1:": "㡚",
+  ":dog-1:": "㡚",
   ":HitMarker:": "㡛",
   ":hog:": "㡜",
   ":HogRider:": "㡝",
@@ -1302,6 +1290,7 @@
   ":jaw:": "㡢",
   ":KirbyFishing:": "㡣",
   ":KirbyShrimp~1:": "㡤",
+  ":KirbyShrimp-1:": "㡤",
   ":krill:": "㡥",
   ":KRILLED:": "㡦",
   ":krillissue:": "㡧",
@@ -1309,6 +1298,7 @@
   ":LetsGoGambling:": "㡩",
   ":milo:": "㡪",
   ":minibus~1:": "㡫",
+  ":minibus-1:": "㡫",
   ":MONEWOI:": "㡬",
   ":nerdcat:": "㡭",
   ":numpties:": "㡮",
@@ -1320,6 +1310,7 @@
   ":reindeer:": "㡴",
   ":sharkicat:": "㡵",
   ":ShrimpCat~1:": "㡶",
+  ":ShrimpCat-1:": "㡶",
   ":shrimpling:": "㡷",
   ":silverbrain:": "㡸",
   ":skyblock:": "㡹",
