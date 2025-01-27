@@ -9,5 +9,5 @@ For any suggestions/emojis to add, go here: [Discord Link](https://discord.gg/Fe
 
 - discordEmojis texture pack in assets folder
 - /toggleemojis command - turns emojis on/off
-- /discordemojis command - help
+- /discordemojis command - help command
 - All emojis you currently see in emojis.json

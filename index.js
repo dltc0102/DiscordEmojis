@@ -15,10 +15,6 @@ function parseJSON(path) {
     return JSON.parse(FileLib.read('DiscordEmojis', path));
 }
 
-function getInstructions() {
-    return new TextComponent('&e&l[Show Instructions]&r').setClick('run_command', '/showTPInstructions');
-};
-
 function getLastColorCode(message) {
     const firstEmojiIndex = message.search(/:(\w+):/);
     if (firstEmojiIndex === -1) return null;
@@ -50,16 +46,18 @@ register('gameLoad', () => {
         .setHover('show_text', '&b#emojis-suggestions')
         .setClick('open_url', 'https://discord.gg/FeYvZu5x');
 
-    const texturePackInstructions = getInstructions();
+    const texturePackGitLink = 'https://github.com/dltc0102/biscuitsEmojiPack/releases/tag/v0.1.0';
+    const tpClickable = new TextComponent('&d&l[Texture Pack Download]')
+        .setClick('open_url', texturePackGitLink)
+        .setHover('show_text', texturePackGitLink.slice(0, 25) + '...')
 
     if (data.firstInstall) {
         data.trigger = true;
         data.firstInstall = false;
         ChatLib.chat(ChatLib.getChatBreak('&e-&r'))
         ChatLib.chat(`${showPartying}Thank you for installing &9DiscordEmojis&r! ${showPartying}`);
-        ChatLib.chat(new Message( `&3 || &rTexture Pack to make this module work: `, texturePackInstructions ));
+        ChatLib.chat(new Message( `&3 || &rTexture Pack to make this module work: `, tpClickable ));
         ChatLib.chat(new Message( `&3 || &rAny suggestions / questions: `, discordLink ));
-        ChatLib.chat(`&3 || &cTo toggle emojis on/off, do &r&b/toggleemojis &r&7| Currently: &r${data.trigger ? '&a&lON&r' : '&c&lOFF&r'}`)
         ChatLib.chat(ChatLib.getChatBreak('&e-&r'))
     };
 });
