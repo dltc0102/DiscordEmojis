@@ -1,4 +1,4 @@
 {
-    "firstInstall": true,
-    "trigger": true
+    "firstInstall": false,
+    "trigger": false
 }

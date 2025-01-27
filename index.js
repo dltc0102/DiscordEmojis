@@ -1,4 +1,5 @@
 import PogObject from '../PogData';
+
 const parsedEmojis = parseJSON('/emojis.json');
 
 const MODULE_PREFIX = '&6[&9DiscordEmojis&6]&r';
@@ -7,6 +8,15 @@ export const data = new PogObject("DiscordEmojis", {
     trigger: false,
 }, './data/data.json');
 data.autosave(3);
+
+const texturePackGitLink = 'https://github.com/dltc0102/biscuitsEmojiPack/releases/tag/v0.1.0';
+const tpClickable = new TextComponent('&b&l[Download Here]')
+    .setClick('open_url', texturePackGitLink)
+    .setHover('show_text', texturePackGitLink);
+
+const discordLink = new TextComponent('&9[Discord]&r')
+    .setHover('show_text', '&b#emojis-suggestions')
+    .setClick('open_url', 'https://discord.gg/FeYvZu5x');
 
 function isInHypixel() {
     return (World.isLoaded() && Server.getIP().includes('hypixel'));
@@ -63,22 +73,13 @@ function hasEmojiPack() {
     return Client.getSettings().getSettings().field_151453_l.includes('biscuitsEmojiPack');
 };
 
-const texturePackGitLink = 'https://github.com/dltc0102/biscuitsEmojiPack/releases/tag/v0.1.0';
-const tpClickable = new TextComponent('&b&l[Download Here]')
-    .setClick('open_url', texturePackGitLink)
-    .setHover('show_text', texturePackGitLink);
-
 //! on load
 register('gameLoad', () => {
     if (!isInHypixel()) return;
     ChatLib.chat(`${MODULE_PREFIX} &r&9Loaded`);
 
     const showPartying = data.trigger && hasEmojiPack() ? '㘄 ' : '';
-    const discordLink = new TextComponent('&9[Discord]&r')
-        .setHover('show_text', '&b#emojis-suggestions')
-        .setClick('open_url', 'https://discord.gg/FeYvZu5x');
 
-    data.firstInstall = true; // dev
     if (data.firstInstall) {
         data.trigger = true;
         data.firstInstall = false;
@@ -94,12 +95,12 @@ register('gameLoad', () => {
 //! commands
 register('command', () => {
     if (!isInHypixel()) return;
-    if (data.trigger) {
+    if (data.trigger === true) {
         ChatLib.chat(`${MODULE_PREFIX} Emojis: &c&lOFF&r`);
         data.trigger = false;
         return;
 
-    } else {
+    } else if (data.trigger === false) {
         ChatLib.chat(`${MODULE_PREFIX} Emojis: &a&lON&r`);
         data.trigger = true;
         return;
@@ -132,7 +133,7 @@ register('chat', (stuff, event) => {
 
     if (match) {
         const [_, rankedName, response] = match;
-        const formattedResponse = hasEmojiPack() ? emojis(response, parsedEmojis) : response;
+        const formattedResponse = data.trigger && hasEmojiPack() ? emojis(response, parsedEmojis) : response;
         const formattedMessage = `&r&9P &8> ${rankedName}&f: &r${formattedResponse}`;
         cancel(event);
         ChatLib.chat(formattedMessage);
@@ -147,7 +148,7 @@ register('chat', (name, response, event) => {
     const match = message.match(regex);
     if (match) {
         const [_, sender, res] = match;
-        const formattedResponse = hasEmojiPack() ? emojis(res, parsedEmojis) : res;
+        const formattedResponse = data.trigger && hasEmojiPack() ? emojis(res, parsedEmojis) : res;
         const formattedMessage = `&dFrom ${sender}&7: &7${formattedResponse}`;
         cancel(event);
         ChatLib.chat(formattedMessage);
@@ -162,7 +163,7 @@ register('chat', (name, response, event) => {
     const match = message.match(regex);
     if (match) {
         const [_, sender, res] = match;
-        const formattedResponse = hasEmojiPack() ? emojis(res, parsedEmojis) : res;
+        const formattedResponse = data.trigger && hasEmojiPack() ? emojis(res, parsedEmojis) : res;
         const formattedMessage = `&dTo ${sender}&7: &7${formattedResponse}`;
         cancel(event);
         ChatLib.chat(formattedMessage);
@@ -173,14 +174,13 @@ register('chat', (name, response, event) => {
 register('chat', (sblvl, name, response, event) => {
     if (!isInHypixel()) return;
     const message = ChatLib.getChatMessage(event, true);
-    const regex = /(&r&8\[&r&\d+&r&8\] &r&[a-z0-9&]+\S+ )(&r&[a-z0-9&]+\[.+?\] .+?): .+/;
+    const regex = /(&r&8\[&r&\d+&r&8\] &r&[a-z0-9&]+\S+ )(&r&[a-z0-9&]+\[.+?\] .+?): (.+)/;
     const match = message.match(regex);
-    const strippedResponse = response.removeFormatting();
     if (!match) return;
 
     if (match) {
-        const [_, playerLevelAndEmblem, rankedName] = match;
-        const formattedResponse = hasEmojiPack() ? emojis(strippedResponse, parsedEmojis) : strippedResponse;
+        const [_, playerLevelAndEmblem, rankedName, matchRes] = match;
+        const formattedResponse = data.trigger && hasEmojiPack() ? emojis(matchRes, parsedEmojis) : matchRes;
         const strippedName = stripRank(rankedName.removeFormatting().trim());
         const pvClickable = new TextComponent(rankedName)
             .setClick('run_command', `/pv ${strippedName}`)
